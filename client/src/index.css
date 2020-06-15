@@ -94,6 +94,7 @@ h3 {
   font-family: sans-serif;
   cursor: pointer;
   display: inline-block;
+  margin-right: 3px;
 }
 
 .button.checkout {
