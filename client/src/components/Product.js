@@ -1,9 +1,20 @@
 import React from "react";
 
-export default function Product({ id, title, quantity, price, addItem }) {
+export default function Product({ _id, title, quantity, price, addItem, editItem }) {
+
+
   const handleAddItem = event => {
     event.preventDefault();
-    addItem(id);
+    addItem(_id);
+  };
+
+  const renderEdit = () => {
+    console.log('hi');
+  };
+
+  const handleEditItem = event => {
+    event.preventDefault();
+    renderEdit();
   };
 
   return (
@@ -16,7 +27,7 @@ export default function Product({ id, title, quantity, price, addItem }) {
           <a href="!#" className={`button add-to-cart ${quantity === 0 && "disabled"}`} onClick={handleAddItem} >
             Add to Cart
           </a>
-          <a href="!#" className="button edit">
+          <a href="!#" className="button edit" onClick={handleEditItem}>
             Edit
           </a>
         </div>

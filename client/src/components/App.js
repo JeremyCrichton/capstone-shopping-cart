@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Cart from "./Cart";
 import ProductList from "./ProductList";
 import AddProduct from "./AddProduct";
-
-import data from "../lib/data";
+import axios from "axios";
 
 class App extends Component {
   state = {
@@ -17,9 +16,8 @@ class App extends Component {
   }
 
   getAllItems() {
-    fetch("/api/products")
-      .then(response => response.json())
-      .then(data => this.setState({ items: data }))
+    axios.get("/api/products")
+      .then(({ data }) => this.setState({ items: data }))
       .catch(err => console.log(err));
   }
 
@@ -27,39 +25,46 @@ class App extends Component {
   // finding element
   // set state for cart --> handle update in server --> set state for product
   getItemFromArray = (arr, id) => {
-    return arr.find(el => el.id === id);
+    return arr.find(el => el._id === id);
+  }
+
+  handleUpdateProduct = (id, update) => {
+    axios.put(`/api/products/${id}`, {
+      ...update
+    })
+      .then(({ data }) => {
+        this.setState(prev => {
+          const prevItems = prev.items.filter(item => item._id !== id);
+          const newItems = [...prevItems, data];
+          return { items: newItems };
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  handleEditProduct = (id, update) => {
+    this.handleUpdateProduct(id, update);
   }
 
   handleItemDecrement = (id) => {
     const item = this.getItemFromArray(this.state.items, id);
-    const body = JSON.stringify({ ...item, quantity: item.quantity - 1 });
-    console.log("body", body);
-    fetch(`/api/products/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...item, quantity: item.quantity - 1 }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => console.log(response.json()))
-      // .then(response => this.setState({ items: [...this.state.items, response] }))
-      .catch(err => console.log(err))
+    this.handleUpdateProduct(id, { quantity: item.quantity - 1 });
   }
 
   addItemToCart = (id) => {
     this.handleItemDecrement(id);
 
-    this.setState(prev => {
-      console.log('hi');
-      // const itemFromItems = this.getItemFromArray(prev.items, id)
-      // const itemFromCart = this.getItemFromArray(prev.cartItems, id);
-      // const itemsQty = itemFromItems.quantity - 1;
-      // const cartQty = itemFromCart ? 1 : itemFromCart.quantity + 1;
-      // const newCartItem = { ...itemFromCart, quantity: cartQty };
-      // const newCart = prev.cartItems.filter(item => item.id !== id);
-      // const newItems = [...newCart, newCartItem];
-      // return { ...prev, cartItems: newCart };
-    });
+    // this.setState(prev => {
+    //   console.log('hi');
+    // const itemFromItems = this.getItemFromArray(prev.items, id)
+    // const itemFromCart = this.getItemFromArray(prev.cartItems, id);
+    // const itemsQty = itemFromItems.quantity - 1;
+    // const cartQty = itemFromCart ? 1 : itemFromCart.quantity + 1;
+    // const newCartItem = { ...itemFromCart, quantity: cartQty };
+    // const newCart = prev.cartItems.filter(item => item.id !== id);
+    // const newItems = [...newCart, newCartItem];
+    // return { ...prev, cartItems: newCart };
+    // });
 
   }
 
@@ -71,7 +76,7 @@ class App extends Component {
           <Cart cartItems={this.state.cartItems} />
         </header>
         <main>
-          {this.state.items.length > 0 && <ProductList items={this.state.items} addItem={this.addItemToCart} />}
+          {this.state.items.length > 0 && <ProductList items={this.state.items} addItem={this.addItemToCart} editItem={this.handleEditProduct} />}
           <AddProduct />
         </main>
       </div>
