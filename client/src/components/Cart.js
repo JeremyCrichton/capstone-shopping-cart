@@ -1,5 +1,6 @@
 import React from "react";
 import CartItem from "./CartItem";
+import { sum } from "../utils/helpers";
 
 export default function Cart({ cartItems }) {
   // Add helpers/calculateTotal
@@ -19,7 +20,7 @@ export default function Cart({ cartItems }) {
         {cartItems && cartItems.map((item) => <CartItem {...item} />)}
         <tr>
           <td colspan="3" class="total">
-            Total: $729.98
+            Total: ${sum(cartItems)}
           </td>
         </tr>
       </table>

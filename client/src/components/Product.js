@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function Product({ id, title, quantity, price }) {
+export default function Product({ id, title, quantity, price, addItem }) {
+  const handleAddItem = event => {
+    event.preventDefault();
+    addItem(id);
+  };
+
   return (
     <div className="product">
       <div className="product-details">
@@ -8,7 +13,7 @@ export default function Product({ id, title, quantity, price }) {
         <p className="price">{price}</p>
         <p className="quantity">{quantity} left in stock</p>
         <div className="actions product-actions">
-          <a href="!#" className="button add-to-cart">
+          <a href="!#" className={`button add-to-cart ${quantity === 0 && "disabled"}`} onClick={handleAddItem} >
             Add to Cart
           </a>
           <a href="!#" className="button edit">

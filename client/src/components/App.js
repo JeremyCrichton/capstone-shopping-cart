@@ -8,11 +8,19 @@ import data from "../lib/data";
 class App extends Component {
   state = {
     items: null,
-    cartItems: null,
+    cartItems: [],
   };
 
   componentDidMount() {
     this.setState({ items: data });
+  }
+
+  addItemToCart = (id) => {
+    const item = this.state.items.filter(item => item.id === id)[0];
+    this.setState(prev => {
+      const newCart = [...prev.cartItems, item];
+      return { ...prev, cartItems: newCart };
+    });
   }
 
   render() {
@@ -23,7 +31,7 @@ class App extends Component {
           <Cart cartItems={this.state.cartItems} />
         </header>
         <main>
-          {this.state.items && <ProductList items={this.state.items} />}
+          {this.state.items && <ProductList items={this.state.items} addItem={this.addItemToCart} />}
           <AddProduct />
         </main>
       </div>
