@@ -16,6 +16,11 @@ export default class AddProduct extends Component {
     this.props.addProduct(this.state);
   };
 
+  handleClearForm = (e) => {
+    e.preventDefault();
+    this.setState({ title: "", price: "", quantity: "" });
+  };
+
   render() {
     return (
       <div className="add-form visible">
@@ -32,7 +37,7 @@ export default class AddProduct extends Component {
               name="title"
               type="text"
               id="product-name"
-              value={this.state.name}
+              value={this.state.title}
               onChange={this.handleChange}
             />
           </div>
@@ -63,7 +68,7 @@ export default class AddProduct extends Component {
             <a href="!#" className="button" onClick={this.handleSubmit}>
               Add
             </a>
-            <a href="!#" className="button">
+            <a onClick={this.handleClearForm} href="!#" className="button">
               Cancel
             </a>
           </div>

@@ -8,7 +8,7 @@ export default function Cart({ cartItems }) {
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      <p>Your cart is empty</p>
+      {cartItems.length === 0 && <p>Your cart is empty</p>}
       <table className="cart-items">
         <tbody>
           {cartItems.length !== 0 && (

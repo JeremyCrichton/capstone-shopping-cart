@@ -7,8 +7,5 @@ export const sum = (arr) => {
   return Number(total).toFixed(2);
 };
 export const sortArrayAlphabetically = (arr) => {
-  console.log(arr);
-  const sorted = arr.sort((a, b) => a["title"].localeCompare(b["title"]));
-  console.log(sorted);
-  return sorted;
+  return arr.sort((a, b) => a["title"].localeCompare(b["title"]));
 };

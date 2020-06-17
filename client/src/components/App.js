@@ -25,15 +25,11 @@ class App extends Component {
       .catch((err) => console.log(err));
   }
 
-  // increment/decrement cart/items qty
-  // finding element
-  // set state for cart --> handle update in server --> set state for product
   getItemFromArray = (arr, id) => {
     return arr.find((el) => el._id === id);
   };
 
   handleUpdateProduct = (id, update) => {
-    console.log(update);
     axios
       .put(`/api/products/${id}`, {
         ...update,
@@ -49,7 +45,6 @@ class App extends Component {
   };
 
   handleEditProduct = (id, update) => {
-    // console.log(id, update);
     this.handleUpdateProduct(id, update);
   };
 
