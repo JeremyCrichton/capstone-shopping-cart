@@ -82,13 +82,19 @@ class App extends Component {
       })
       .catch((err) => console.log(err));
   };
+  handleEmptyCart = () => {
+    this.setState({ cartItems: [] });
+  };
   // "onAddItem", "handleAddItem"
   render() {
     return (
       <div id="app">
         <header>
           <h1>The Shop!</h1>
-          <Cart cartItems={this.state.cartItems} />
+          <Cart
+            cartItems={this.state.cartItems}
+            onEmptyCart={this.handleEmptyCart}
+          />
         </header>
         <main>
           {this.state.items.length > 0 && (

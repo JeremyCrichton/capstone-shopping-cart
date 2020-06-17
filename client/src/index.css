@@ -102,6 +102,10 @@ h3 {
   color: #07575b;
 }
 
+.button.checkout:hover {
+  cursor: pointer;
+}
+
 .button.disabled {
   background: #ccc;
   color: #fff;

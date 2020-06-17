@@ -2,8 +2,13 @@ import React from "react";
 import CartItem from "./CartItem";
 import { sum } from "../utils/helpers";
 
-export default function Cart({ cartItems }) {
+export default function Cart({ cartItems, onEmptyCart }) {
   // Add helpers/calculateTotal
+
+  const handleClickCheckout = (e) => {
+    e.preventDefault();
+    onEmptyCart();
+  };
 
   return (
     <div className="cart">
@@ -27,7 +32,11 @@ export default function Cart({ cartItems }) {
           </tr>
         </tbody>
       </table>
-      <a href="!#" className="button checkout disabled">
+      <a
+        onClick={handleClickCheckout}
+        href="!#"
+        className="button checkout disabled"
+      >
         Checkout
       </a>
     </div>
