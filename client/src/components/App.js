@@ -56,15 +56,16 @@ class App extends Component {
     this.handleItemDecrement(id, item);
 
     this.setState((prev) => {
-      // const itemFromItems = this.getItemFromArray(prev.items, id)
-      // const itemsQty = itemFromItems.quantity - 1;
-      // const newItems = [...newCart, newCartItem];
       const itemFromCart = this.getItemFromArray(prev.cartItems, id);
       const cartQty = itemFromCart ? itemFromCart.quantity + 1 : 1;
       const newCartItem = { ...item, ...itemFromCart, quantity: cartQty };
       const newCart = prev.cartItems.filter((item) => item._id !== id);
       return { cartItems: [...newCart, newCartItem] };
     });
+  };
+
+  addProduct = (item) => {
+    console.log(item);
   };
 
   render() {
@@ -82,7 +83,7 @@ class App extends Component {
               editItem={this.handleEditProduct}
             />
           )}
-          <AddProduct />
+          <AddProduct addProduct={this.addProduct} />
         </main>
       </div>
     );
@@ -90,14 +91,3 @@ class App extends Component {
 }
 
 export default App;
-
-/**
- * Shop
- *  - Cart
- *  - Products
- *   - EditableProduct
- *     - Product
- *     - EditProductForm
- * - AddProduct
- *   - AddProductForm
- */

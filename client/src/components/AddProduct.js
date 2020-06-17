@@ -2,10 +2,20 @@ import React, { Component } from "react";
 
 export default class AddProduct extends Component {
   state = {
-    name: "",
-    price: 0,
-    quantity: 0,
+    title: "",
+    price: "",
+    quantity: "",
   };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.addProduct(this.state);
+  };
+
   render() {
     return (
       <div className="add-form visible">
@@ -16,21 +26,41 @@ export default class AddProduct extends Component {
         <form>
           <div className="input-group">
             <label htmlFor="product-name">Product Name</label>
-            <input type="text" id="product-name" value={this.state.name} />
+            <input
+              name="title"
+              type="text"
+              id="product-name"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="input-group">
             <label htmlFor="product-price">Price</label>
-            <input type="text" id="product-price" value="" />
+            <input
+              name="price"
+              type="text"
+              id="product-price"
+              value={this.state.price}
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="input-group">
             <label htmlFor="product-quantity">Quantity</label>
-            <input type="text" id="product-quantity" value="" />
+            <input
+              name="quantity"
+              type="text"
+              id="product-quantity"
+              value={this.state.quantity}
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="actions form-actions">
-            <a className="button">Add</a>
+            <a className="button" onClick={this.handleSubmit}>
+              Add
+            </a>
             <a className="button">Cancel</a>
           </div>
         </form>
