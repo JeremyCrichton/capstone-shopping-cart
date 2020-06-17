@@ -9,23 +9,27 @@ export default function Cart({ cartItems }) {
     <div className="cart">
       <h2>Your Cart</h2>
       <p>Your cart is empty</p>
-      <table class="cart-items">
-        {cartItems.length !== 0 && (
+      <table className="cart-items">
+        <tbody>
+          {cartItems.length !== 0 && (
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          )}
+          {cartItems.length !== 0 &&
+            cartItems.map((item) => <CartItem key={item._id} {...item} />)}
           <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
+            <td colSpan="3" className="total">
+              Total: ${sum(cartItems)}
+            </td>
           </tr>
-        )}
-        {cartItems.length !== 0 &&
-          cartItems.map((item) => <CartItem {...item} />)}
-        <tr>
-          <td colspan="3" class="total">
-            Total: ${sum(cartItems)}
-          </td>
-        </tr>
+        </tbody>
       </table>
-      <a className="button checkout disabled">Checkout</a>
+      <a href="!#" className="button checkout disabled">
+        Checkout
+      </a>
     </div>
   );
 }

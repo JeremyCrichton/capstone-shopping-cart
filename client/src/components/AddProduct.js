@@ -20,7 +20,9 @@ export default class AddProduct extends Component {
     return (
       <div className="add-form visible">
         <p>
-          <a className="button add-product-button">Add A Product</a>
+          <a href="!#" className="button add-product-button">
+            Add A Product
+          </a>
         </p>
         <h3>Add Product</h3>
         <form>
@@ -58,10 +60,12 @@ export default class AddProduct extends Component {
           </div>
 
           <div className="actions form-actions">
-            <a className="button" onClick={this.handleSubmit}>
+            <a href="!#" className="button" onClick={this.handleSubmit}>
               Add
             </a>
-            <a className="button">Cancel</a>
+            <a href="!#" className="button">
+              Cancel
+            </a>
           </div>
         </form>
       </div>

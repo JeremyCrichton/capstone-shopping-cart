@@ -4,6 +4,8 @@ import ProductList from "./ProductList";
 import AddProduct from "./AddProduct";
 import axios from "axios";
 
+import { sortArrayAlphabetically } from "../utils/helpers";
+
 class App extends Component {
   state = {
     items: [],
@@ -17,7 +19,9 @@ class App extends Component {
   getAllItems() {
     axios
       .get("/api/products")
-      .then(({ data }) => this.setState({ items: data }))
+      .then(({ data }) => {
+        this.setState({ items: sortArrayAlphabetically(data) });
+      })
       .catch((err) => console.log(err));
   }
 
@@ -29,6 +33,7 @@ class App extends Component {
   };
 
   handleUpdateProduct = (id, update) => {
+    console.log(update);
     axios
       .put(`/api/products/${id}`, {
         ...update,
@@ -37,13 +42,14 @@ class App extends Component {
         this.setState((prev) => {
           const prevItems = prev.items.filter((item) => item._id !== id);
           const newItems = [...prevItems, data];
-          return { items: newItems };
+          return { items: sortArrayAlphabetically(newItems) };
         });
       })
       .catch((err) => console.log(err));
   };
 
   handleEditProduct = (id, update) => {
+    // console.log(id, update);
     this.handleUpdateProduct(id, update);
   };
 
@@ -60,12 +66,26 @@ class App extends Component {
       const cartQty = itemFromCart ? itemFromCart.quantity + 1 : 1;
       const newCartItem = { ...item, ...itemFromCart, quantity: cartQty };
       const newCart = prev.cartItems.filter((item) => item._id !== id);
-      return { cartItems: [...newCart, newCartItem] };
+      return { cartItems: sortArrayAlphabetically([...newCart, newCartItem]) };
     });
   };
 
   addProduct = (item) => {
-    console.log(item);
+    axios
+      .post(`/api/products`, item)
+      .then(() => {
+        this.getAllItems();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  deleteProduct = (_id) => {
+    axios
+      .delete(`/api/products/${_id}`)
+      .then(() => {
+        this.getAllItems();
+      })
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -80,7 +100,8 @@ class App extends Component {
             <ProductList
               items={this.state.items}
               addItem={this.addItemToCart}
-              editItem={this.handleEditProduct}
+              onEditSubmit={this.handleEditProduct}
+              deleteItem={this.deleteProduct}
             />
           )}
           <AddProduct addProduct={this.addProduct} />
