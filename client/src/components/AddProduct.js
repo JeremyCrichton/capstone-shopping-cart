@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 
 export default class AddProduct extends Component {
+  state = {
+    name: "",
+    price: 0,
+    quantity: 0,
+  };
   render() {
     return (
       <div className="add-form visible">
@@ -11,7 +16,7 @@ export default class AddProduct extends Component {
         <form>
           <div className="input-group">
             <label htmlFor="product-name">Product Name</label>
-            <input type="text" id="product-name" value="" />
+            <input type="text" id="product-name" value={this.state.name} />
           </div>
 
           <div className="input-group">
