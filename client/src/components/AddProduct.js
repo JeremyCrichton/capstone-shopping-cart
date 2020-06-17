@@ -13,6 +13,7 @@ export default class AddProduct extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    // this.handleClearForm();
     this.props.addProduct(this.state);
   };
 

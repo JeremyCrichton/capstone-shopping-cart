@@ -14,7 +14,7 @@ export default function Product({
 
   const handleAddItem = (event) => {
     event.preventDefault();
-    addItem(_id);
+    addItem(_id); // TODO onAddItem
   };
 
   const handleEditItem = (event) => {

@@ -36,7 +36,7 @@ class App extends Component {
       })
       .then(({ data }) => {
         this.setState((prev) => {
-          const prevItems = prev.items.filter((item) => item._id !== id);
+          const prevItems = prev.items.filter((item) => item._id !== id); // TODO: use map not filter
           const newItems = [...prevItems, data];
           return { items: sortArrayAlphabetically(newItems) };
         });
@@ -60,7 +60,7 @@ class App extends Component {
       const itemFromCart = this.getItemFromArray(prev.cartItems, id);
       const cartQty = itemFromCart ? itemFromCart.quantity + 1 : 1;
       const newCartItem = { ...item, ...itemFromCart, quantity: cartQty };
-      const newCart = prev.cartItems.filter((item) => item._id !== id);
+      const newCart = prev.cartItems.filter((item) => item._id !== id); // TODO: if !itemFromCart, concat to cart arr, otherwise map and change item in arry
       return { cartItems: sortArrayAlphabetically([...newCart, newCartItem]) };
     });
   };
@@ -82,7 +82,7 @@ class App extends Component {
       })
       .catch((err) => console.log(err));
   };
-
+  // "onAddItem", "handleAddItem"
   render() {
     return (
       <div id="app">
