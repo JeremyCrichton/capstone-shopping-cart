@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function CartItem() {
+export default function CartItem({ item, quantity, price }) {
   return (
     <tr>
-      <td>Amazon Kindle E-reader</td>
-      <td>2</td>
-      <td>$79.99</td>
+      <td>{item}</td>
+      <td>{quantity}</td>
+      <td>{price}</td>
     </tr>
   );
 }
