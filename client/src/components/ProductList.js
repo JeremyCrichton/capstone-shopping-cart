@@ -1,13 +1,35 @@
-import React from "react";
-import Product from "./Product";
+import React, { Component } from 'react'
+import Product from "./Product"
+import store from '../store'
+import axios from 'axios'
+import * as product from '../actions/products'
+import { sortArrayAlphabetically } from '../utils/helpers'
 
-export default function ProductList({ items, ...helpers }) {
-  return (
-    <div className="product-listing">
-      <h2>Products</h2>
-      {items.map((item) => (
-        <Product key={item._id} {...helpers} {...item} />
-      ))}
-    </div>
-  );
+export default class ProductList extends Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => this.forceUpdate())
+    axios
+      .get("/api/products")
+      .then(({ data }) => {
+        const newData = sortArrayAlphabetically(data).map(item =>
+          ({ ...item, id: item._id })
+        )
+        store.dispatch(product.receiveAllProducts(newData))
+      })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  render() {
+    return (
+      <div className="product-listing">
+        <h2>Products</h2>
+        {store.getState().products.map((product) => (
+          <Product key={product._id} {...product} />
+        ))}
+      </div>
+    );
+  }
 }

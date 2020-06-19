@@ -3,20 +3,21 @@ import Cart from "./Cart";
 import ProductList from "./ProductList";
 import AddProduct from "./AddProduct";
 import axios from "axios";
+import store from '../store';
 
 import { sortArrayAlphabetically } from "../utils/helpers";
 
 class App extends Component {
-  state = {
-    items: [],
-    cartItems: [],
-  };
+  // state = {
+  //   items: [],
+  //   cartItems: [],
+  // };
 
   componentDidMount() {
-    this.getAllItems();
+    this.getAllProducts();
   }
 
-  getAllItems() {
+  getAllProducts() {
     axios
       .get("/api/products")
       .then(({ data }) => {
@@ -52,24 +53,11 @@ class App extends Component {
     this.handleUpdateProduct(id, { quantity: item.quantity - 1 });
   };
 
-  addItemToCart = (id) => {
-    const item = this.getItemFromArray(this.state.items, id);
-    this.handleItemDecrement(id, item);
-
-    this.setState((prev) => {
-      const itemFromCart = this.getItemFromArray(prev.cartItems, id);
-      const cartQty = itemFromCart ? itemFromCart.quantity + 1 : 1;
-      const newCartItem = { ...item, ...itemFromCart, quantity: cartQty };
-      const newCart = prev.cartItems.filter((item) => item._id !== id); // TODO: if !itemFromCart, concat to cart arr, otherwise map and change item in arry
-      return { cartItems: sortArrayAlphabetically([...newCart, newCartItem]) };
-    });
-  };
-
   addProduct = (item) => {
     axios
       .post(`/api/products`, item)
       .then(() => {
-        this.getAllItems();
+        this.getAllProducts();
       })
       .catch((err) => console.log(err));
   };
@@ -78,7 +66,7 @@ class App extends Component {
     axios
       .delete(`/api/products/${_id}`)
       .then(() => {
-        this.getAllItems();
+        this.getAllProducts();
       })
       .catch((err) => console.log(err));
   };
@@ -91,21 +79,19 @@ class App extends Component {
       <div id="app">
         <header>
           <h1>The Shop!</h1>
-          <Cart
-            cartItems={this.state.cartItems}
-            onEmptyCart={this.handleEmptyCart}
-          />
+          <Cart />
         </header>
         <main>
-          {this.state.items.length > 0 && (
+          <ProductList />
+          {/* {this.state.items.length > 0 && (
             <ProductList
-              items={this.state.items}
-              addItem={this.addItemToCart}
-              onEditSubmit={this.handleEditProduct}
-              deleteItem={this.deleteProduct}
+            addItem={this.addItemToCart}
+            onEditSubmit={this.handleEditProduct}
+            deleteItem={this.deleteProduct}
             />
-          )}
-          <AddProduct addProduct={this.addProduct} />
+          )} */}
+          {/* <AddProduct addProduct={this.addProduct} /> */}
+          <AddProduct />
         </main>
       </div>
     );
