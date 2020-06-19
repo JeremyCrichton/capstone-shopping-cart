@@ -1,10 +1,11 @@
 import { ADD_TO_CART, EMPTY_CART } from '../actions/cart'
 
 const addItemToCart = (cart, product) => {
-  const cartItem = cart.find(item => item.id === product.id)
+  const cartItem = cart.find(item => item.id === product._id)
+  console.log(product._id)
   if (cartItem) {
     return cart.map(item => {
-      if (item.id === product.id) {
+      if (item.id === product._id) {
         return { ...item, quantity: item.quantity + 1 }
       } else {
         return item

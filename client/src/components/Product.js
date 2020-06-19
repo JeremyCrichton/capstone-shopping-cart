@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import EditProduct from "./EditProduct";
 import store from "../store";
-import { addToCart } from "../actions/cart";
+import { ADD_TO_CART } from "../actions/cart";
 import { EDIT_PRODUCT, DELETE_PRODUCT } from "../actions/products";
 import axios from "axios";
 
@@ -11,7 +11,6 @@ export default class Product extends Component {
   };
 
   setToggleEditProduct = (value) => {
-    // this.state.toggleEditProduct = value
     this.setState((prevState) => {
       return { toggleEditProduct: !prevState.toggleEditProduct };
     });
@@ -25,8 +24,9 @@ export default class Product extends Component {
       quantity: this.props.quantity - 1,
       price: this.props.price,
     };
-    axios.put(`/api/products/${this.props.id}`, product).then((data) => {
-      store.dispatch(addToCart({ ...data.data, id: data.data._id }));
+    axios.put(`/api/products/${this.props.id}`, product).then((res) => {
+      // store.dispatch(addToCart({ ...data.data, id: data.data._id }));
+      store.dispatch({ type: ADD_TO_CART, payload: res.data })
     });
   };
 

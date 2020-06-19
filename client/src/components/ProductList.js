@@ -22,7 +22,6 @@ export default class ProductList extends Component {
   }
 
   render() {
-    console.log(store.getState());
     return (
       <div className="product-listing">
         <h2>Products</h2>

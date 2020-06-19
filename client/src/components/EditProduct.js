@@ -1,26 +1,40 @@
 import React, { useState } from "react";
+import axios from 'axios'
+import store from "../store";
+import { EDIT_PRODUCT } from '../actions/products'
 
 const EditProduct = ({
   id,
   title,
   price,
   quantity,
-  onEditSubmit,
+  // onEditSubmit,
   hideEditProduct,
 }) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
 
+  const onEditSubmit = (item) => {
+    axios
+      .put(`/api/products/${id}`, item)
+      .then(({ data }) => {
+        store.dispatch({ type: EDIT_PRODUCT, payload: data })
+        hideEditProduct()
+      })
+      .catch((err) => console.log(err))
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedItem = {
+      _id: id,
       title: newTitle,
       price: newPrice,
       quantity: newQuantity,
     };
     if (newTitle && newPrice && newQuantity) {
-      onEditSubmit(id, updatedItem);
+      onEditSubmit(updatedItem);
     }
   };
 

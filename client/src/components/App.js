@@ -3,9 +3,8 @@ import Cart from "./Cart";
 import ProductList from "./ProductList";
 import AddProduct from "./AddProduct";
 import axios from "axios";
-import store from "../store";
+import store from '../store';
 
-import { sortArrayAlphabetically } from "../utils/helpers";
 
 class App extends Component {
   // state = {
@@ -14,16 +13,8 @@ class App extends Component {
   // };
 
   componentDidMount() {
-    this.getAllProducts();
-  }
-
-  getAllProducts() {
-    axios
-      .get("/api/products")
-      .then(({ data }) => {
-        this.setState({ items: sortArrayAlphabetically(data) });
-      })
-      .catch((err) => console.log(err));
+    // store.dispatch({type: "REQU"})
+    // this.getAllProducts();
   }
 
   getItemFromArray = (arr, id) => {
@@ -37,30 +28,33 @@ class App extends Component {
       })
       .then(({ data }) => {
         this.setState((prev) => {
-          const prevItems = prev.items.filter((item) => item._id !== id); // TODO: use map not filter
-          const newItems = [...prevItems, data];
-          return { items: sortArrayAlphabetically(newItems) };
+          console.log(prev)
+          return;
+
+          // const prevItems = prev.items.filter((item) => item._id !== id); // TODO: use map not filter
+          // const newItems = [...prevItems, data];
+          // return { items: sortArrayAlphabetically(newItems) };
         });
       })
       .catch((err) => console.log(err));
   };
 
-  handleEditProduct = (id, update) => {
-    this.handleUpdateProduct(id, update);
-  };
+  // handleEditProduct = (id, update) => {
+  //   this.handleUpdateProduct(id, update);
+  // };
 
   handleItemDecrement = (id, item) => {
     this.handleUpdateProduct(id, { quantity: item.quantity - 1 });
   };
 
-  // addProduct = (item) => {
-  //   axios
-  //     .post(`/api/products`, item)
-  //     .then(() => {
-  //       this.getAllProducts();
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  addProduct = (item) => {
+    axios
+      .post(`/api/products`, item)
+      .then(() => {
+        this.getAllProducts();
+      })
+      .catch((err) => console.log(err));
+  };
 
   deleteProduct = (_id) => {
     axios

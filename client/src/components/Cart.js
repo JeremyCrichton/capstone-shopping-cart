@@ -34,7 +34,7 @@ export default class Cart extends Component {
               </tr>
             )}
             {cart.length !== 0 &&
-              cart.map((item) => <CartItem key={item.id} {...item} />)}
+              cart.map((item) => <CartItem key={item._id} {...item} />)}
             <tr>
               <td colSpan="3" className="total">
                 Total: ${sum(cart)}
