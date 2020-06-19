@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import EditProduct from "./EditProduct";
 import store from "../store";
 import { addToCart } from "../actions/cart";
-import { EDIT_PRODUCT, DELETE_PRODUCT } from "../actions/products";
+import { receiveAllProducts } from "../actions/products";
 import axios from "axios";
 
 export default class Product extends Component {
@@ -11,7 +11,6 @@ export default class Product extends Component {
   };
 
   setToggleEditProduct = (value) => {
-    // this.state.toggleEditProduct = value
     this.setState((prevState) => {
       return { toggleEditProduct: !prevState.toggleEditProduct };
     });
@@ -37,15 +36,15 @@ export default class Product extends Component {
 
   handleDeleteItem = (e) => {
     e.preventDefault();
-    const id = this.props.id;
+    const id = this.props._id;
     axios.delete(`/api/products/${id}`).then((_) => {
-      store.dispatch({ type: DELETE_PRODUCT, payload: id });
+      axios.get("/api/products").then(({ data }) => {
+        store.dispatch(receiveAllProducts(data));
+      });
     });
   };
 
   render() {
-    // const [toggleEditProduct, setToggleEditProduct] = useState(false)
-    // this.state.product = this.props.product;
     const { title, quantity, price } = this.props;
     return (
       <div className="product">
@@ -90,16 +89,3 @@ export default class Product extends Component {
     );
   }
 }
-
-// export default function Product({ product }) {
-//   const [toggleEditProduct, setToggleEditProduct] = useState(false);
-
-//   const { title, price, quantity } = product;
-
-//   // const handleEditSubmit = (e) => {
-//   //   e.preventDefault()
-//   //   store.dispatch({ type: EDIT_PRODUCT, payload: product})
-//   //   setToggleEditProduct(!toggleEditProduct);
-//   // };
-
-// }

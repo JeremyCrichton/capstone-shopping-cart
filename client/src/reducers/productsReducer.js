@@ -5,22 +5,20 @@ import {
   ADD_PRODUCT,
 } from "../actions/products";
 
-const products = (state = [], action) => {
-  console.log(state, action);
+const products = (productState = [], action) => {
+  console.log(productState, action);
   switch (action.type) {
     case RECEIVE_ALL_PRODUCTS:
       return action.payload;
     case EDIT_PRODUCT:
       console.log(action.payload);
-      return state;
+      return productState;
     case DELETE_PRODUCT:
-      console.log(action.payload);
-      return state;
+      return productState.filter((product) => product.id !== action.payload.id);
     case ADD_PRODUCT:
-      console.log("add product reducer");
-      return [...state, action.payload];
+      return [...productState, action.payload];
     default:
-      return state;
+      return productState;
   }
 };
 

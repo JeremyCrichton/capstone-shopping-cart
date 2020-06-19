@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import store from "../store";
-import { sendAddProduct } from "../actions/products";
+import { addProduct, receiveAllProducts } from "../actions/products";
+import axios from "axios";
 
 export default class AddProduct extends Component {
   state = {
@@ -15,13 +16,15 @@ export default class AddProduct extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // this.handleClearForm();
-    // this.props.addProduct(this.state);
-    store.dispatch(sendAddProduct(this.state));
+    axios.post("/api/products", this.state).then(() => {
+      axios.get("/api/products").then(({ data }) => {
+        store.dispatch(receiveAllProducts(data));
+      });
+      this.handleClearForm();
+    });
   };
 
-  handleClearForm = (e) => {
-    e.preventDefault();
+  handleClearForm = () => {
     this.setState({ title: "", price: "", quantity: "" });
   };
 
