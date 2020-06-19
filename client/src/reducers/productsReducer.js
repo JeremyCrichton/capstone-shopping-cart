@@ -27,8 +27,14 @@ const products = (productState = [], action) => {
     case RECEIVE_ALL_PRODUCTS:
       return action.payload;
     case EDIT_PRODUCT:
-      console.log(action.payload);
-      return productState;
+      product = action.payload;
+      return productState.map((item) => {
+        if (item._id === product._id) {
+          return { ...product, id: product._id };
+        } else {
+          return { ...item, id: item._id };
+        }
+      });
     case DELETE_PRODUCT:
       return productState.filter((product) => product._id !== action.payload);
     case ADD_PRODUCT:

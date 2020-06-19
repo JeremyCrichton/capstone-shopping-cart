@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Cart from "./Cart";
+import CartContainer from "./CartContainer";
 import ProductListContainer from "./ProductListContainer";
-import AddProduct from "./AddProduct";
+import AddProductContainer from "./AddProductContainer";
 
 class App extends Component {
   render() {
@@ -9,11 +9,11 @@ class App extends Component {
       <div id="app">
         <header>
           <h1>The Shop!</h1>
-          <Cart />
+          <CartContainer />
         </header>
         <main>
           <ProductListContainer />
-          <AddProduct />
+          <AddProductContainer />
         </main>
       </div>
     );

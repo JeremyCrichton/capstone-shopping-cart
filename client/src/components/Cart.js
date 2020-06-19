@@ -1,25 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import CartItem from "./CartItem";
 import { sum } from "../utils/helpers";
-import store from '../store'
-import { emptyCart } from '../actions/cart'
 
 export default class Cart extends Component {
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => this.forceUpdate())
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  handleClickCheckout = (e) => {
-    e.preventDefault()
-    store.dispatch(emptyCart())
-  }
-
   render() {
-    const { cart } = store.getState();
+    console.log(this.props);
+    const { cart } = this.props;
     return (
       <div className="cart">
         <h2>Your Cart</h2>
@@ -43,25 +29,13 @@ export default class Cart extends Component {
           </tbody>
         </table>
         <a
-          onClick={this.handleClickCheckout}
+          onClick={this.props.handleClickCheckout}
           href="!#"
           className="button checkout disabled"
         >
           Checkout
-      </a>
+        </a>
       </div>
-    )
+    );
   }
 }
-
-
-// export default function Cart({ cart, onEmptyCart }) {
-//   const handleClickCheckout = (e) => {
-//     e.preventDefault();
-//     onEmptyCart();
-//   };
-
-//   return (
-
-//   );
-// }

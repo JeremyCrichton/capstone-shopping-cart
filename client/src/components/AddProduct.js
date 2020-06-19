@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import store from "../store";
-import { addProduct } from "../actions/products";
-import axios from "axios";
 
 export default class AddProduct extends Component {
   state = {
@@ -14,16 +11,17 @@ export default class AddProduct extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post("/api/products", this.state).then(({ data }) => {
-      store.dispatch(addProduct(data));
-      this.handleClearForm();
-    });
-  };
-
   handleClearForm = () => {
     this.setState({ title: "", price: "", quantity: "" });
+  };
+
+  handleClickSubmit = (e) => {
+    const product = {
+      title: this.state.title,
+      price: this.state.price,
+      quantity: this.state.quantity,
+    };
+    this.props.onSubmit(e, product, () => this.handleClearForm());
   };
 
   render() {
@@ -70,7 +68,7 @@ export default class AddProduct extends Component {
           </div>
 
           <div className="actions form-actions">
-            <a href="!#" className="button" onClick={this.handleSubmit}>
+            <a href="!#" className="button" onClick={this.handleClickSubmit}>
               Add
             </a>
             <a onClick={this.handleClearForm} href="!#" className="button">

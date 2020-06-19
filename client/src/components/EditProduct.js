@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { receiveAllProducts, EDIT_PRODUCT } from "../actions/products";
-import axios from "axios";
-import store from "../store";
 
-const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
+const EditProduct = ({
+  _id,
+  title,
+  price,
+  quantity,
+  hideEditProduct,
+  onSubmitEdit,
+}) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(title, price, quantity);
     const updatedItem = {
       _id: _id,
       title: newTitle,
@@ -17,13 +22,7 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
       quantity: newQuantity,
     };
     if (newTitle && newPrice && newQuantity) {
-      console.log(_id, updatedItem);
-      axios.put(`/api/products/${_id}`, updatedItem).then(() => {
-        hideEditProduct();
-        axios.get("/api/products").then(({ data }) => {
-          store.dispatch(receiveAllProducts(data));
-        });
-      });
+      onSubmitEdit(updatedItem);
     }
   };
 

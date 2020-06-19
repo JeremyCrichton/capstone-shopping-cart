@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import EditProduct from "./EditProduct";
-import store from "../store";
-import { ADD_TO_CART } from "../actions/cart";
-import { deleteProduct } from "../actions/products";
-import axios from "axios";
+import EditProductContainer from "./EditProductContainer";
 
 export default class Product extends Component {
   state = {
@@ -16,31 +12,9 @@ export default class Product extends Component {
     });
   };
 
-  // handleAddItemToCart = (e) => {
-  //   e.preventDefault();
-  //   const product = {
-  //     _id: this.props._id,
-  //     title: this.props.title,
-  //     quantity: this.props.quantity - 1,
-  //     price: this.props.price,
-  //   };
-  //   axios.put(`/api/products/${this.props._id}`, product).then((res) => {
-  //     store.dispatch({ type: ADD_TO_CART, payload: res.data });
-  //   });
-  // };
-
   handleEditButton = (e) => {
     e.preventDefault();
     this.setToggleEditProduct(!this.state.toggleEditProduct);
-  };
-
-  handleDeleteItem = (e) => {
-    e.preventDefault();
-    const id = this.props._id;
-    // probably want to move this to the reducers
-    axios.delete(`/api/products/${id}`).then((_) => {
-      store.dispatch(deleteProduct(id));
-    });
   };
 
   render() {
@@ -70,7 +44,7 @@ export default class Product extends Component {
             </div>
           )}
           <a
-            onClick={this.handleDeleteItem}
+            onClick={this.props.handleDeleteItem}
             href="!#"
             className="delete-button"
           >
@@ -78,8 +52,7 @@ export default class Product extends Component {
           </a>
         </div>
         {this.state.toggleEditProduct && (
-          <EditProduct
-            // onEditSubmit={handleEditSubmit}
+          <EditProductContainer
             hideEditProduct={() => this.setToggleEditProduct(false)}
             {...this.props}
           />
