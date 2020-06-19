@@ -2,18 +2,13 @@ import React, { Component } from "react";
 import Product from "./Product";
 import store from "../store";
 import axios from "axios";
-import * as product from "../actions/products";
-import { sortArrayAlphabetically } from "../utils/helpers";
+import { receiveAllProducts } from "../actions/products";
 
 export default class ProductList extends Component {
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
     axios.get("/api/products").then(({ data }) => {
-      const newData = sortArrayAlphabetically(data).map((item) => ({
-        ...item,
-        id: item._id,
-      }));
-      store.dispatch(product.receiveAllProducts(newData));
+      store.dispatch(receiveAllProducts(data));
     });
   }
 

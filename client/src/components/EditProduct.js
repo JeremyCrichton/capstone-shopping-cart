@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import axios from 'axios'
 import store from "../store";
 import { EDIT_PRODUCT } from '../actions/products'
@@ -11,6 +12,13 @@ const EditProduct = ({
   // onEditSubmit,
   hideEditProduct,
 }) => {
+=======
+import { receiveAllProducts } from "../actions/products";
+import axios from "axios";
+import store from "../store";
+
+const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
+>>>>>>> 1d7976c6b6ac284a8c8c92a67c2f2c6c6c33e15a
   const [newTitle, setNewTitle] = useState(title);
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
@@ -34,7 +42,17 @@ const EditProduct = ({
       quantity: newQuantity,
     };
     if (newTitle && newPrice && newQuantity) {
+<<<<<<< HEAD
       onEditSubmit(updatedItem);
+=======
+      console.log(_id, updatedItem);
+      axios.put(`/api/products/${_id}`, updatedItem).then(() => {
+        hideEditProduct();
+        axios.get("/api/products").then(({ data }) => {
+          store.dispatch(receiveAllProducts(data));
+        });
+      });
+>>>>>>> 1d7976c6b6ac284a8c8c92a67c2f2c6c6c33e15a
     }
   };
 
