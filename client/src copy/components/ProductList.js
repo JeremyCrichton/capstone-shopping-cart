@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import Product from "./Product";
 import store from "../store";
+import axios from "axios";
+import { receiveAllProducts } from "../actions/products";
 
 export default class ProductList extends Component {
   componentDidMount() {
-    this.props.onFetchProducts();
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+    axios.get("/api/products").then(({ data }) => {
+      store.dispatch(receiveAllProducts(data));
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {

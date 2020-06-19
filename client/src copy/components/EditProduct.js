@@ -8,6 +8,16 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
 
+  const onEditSubmit = (item) => {
+    axios
+      .put(`/api/products/${_id}`, item)
+      .then(({ data }) => {
+        store.dispatch({ type: EDIT_PRODUCT, payload: data })
+        hideEditProduct()
+      })
+      .catch((err) => console.log(err))
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedItem = {

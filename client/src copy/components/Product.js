@@ -16,18 +16,18 @@ export default class Product extends Component {
     });
   };
 
-  // handleAddItemToCart = (e) => {
-  //   e.preventDefault();
-  //   const product = {
-  //     _id: this.props._id,
-  //     title: this.props.title,
-  //     quantity: this.props.quantity - 1,
-  //     price: this.props.price,
-  //   };
-  //   axios.put(`/api/products/${this.props._id}`, product).then((res) => {
-  //     store.dispatch({ type: ADD_TO_CART, payload: res.data });
-  //   });
-  // };
+  handleAddItemToCart = (e) => {
+    e.preventDefault();
+    const product = {
+      _id: this.props._id,
+      title: this.props.title,
+      quantity: this.props.quantity - 1,
+      price: this.props.price,
+    };
+    axios.put(`/api/products/${this.props._id}`, product).then((res) => {
+      store.dispatch({ type: ADD_TO_CART, payload: res.data });
+    });
+  };
 
   handleEditButton = (e) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ export default class Product extends Component {
               <a
                 href="!#"
                 className={`button add-to-cart ${quantity <= 0 && "disabled"}`}
-                onClick={this.props.handleAddItemToCart}
+                onClick={this.handleAddItemToCart}
               >
                 Add to Cart
               </a>
