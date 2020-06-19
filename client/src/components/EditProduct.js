@@ -1,31 +1,16 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
-import axios from 'axios'
-import store from "../store";
-import { EDIT_PRODUCT } from '../actions/products'
-
-const EditProduct = ({
-  id,
-  title,
-  price,
-  quantity,
-  // onEditSubmit,
-  hideEditProduct,
-}) => {
-=======
-import { receiveAllProducts } from "../actions/products";
+import { receiveAllProducts, EDIT_PRODUCT } from "../actions/products";
 import axios from "axios";
 import store from "../store";
 
 const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
->>>>>>> 1d7976c6b6ac284a8c8c92a67c2f2c6c6c33e15a
   const [newTitle, setNewTitle] = useState(title);
   const [newPrice, setNewPrice] = useState(price);
   const [newQuantity, setNewQuantity] = useState(quantity);
 
   const onEditSubmit = (item) => {
     axios
-      .put(`/api/products/${id}`, item)
+      .put(`/api/products/${_id}`, item)
       .then(({ data }) => {
         store.dispatch({ type: EDIT_PRODUCT, payload: data })
         hideEditProduct()
@@ -36,15 +21,12 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedItem = {
-      _id: id,
+      _id: _id,
       title: newTitle,
       price: newPrice,
       quantity: newQuantity,
     };
     if (newTitle && newPrice && newQuantity) {
-<<<<<<< HEAD
-      onEditSubmit(updatedItem);
-=======
       console.log(_id, updatedItem);
       axios.put(`/api/products/${_id}`, updatedItem).then(() => {
         hideEditProduct();
@@ -52,7 +34,6 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
           store.dispatch(receiveAllProducts(data));
         });
       });
->>>>>>> 1d7976c6b6ac284a8c8c92a67c2f2c6c6c33e15a
     }
   };
 
@@ -61,7 +42,7 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
       <h3>Edit Product</h3>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="product-name">{title}</label>
+          <label htmlFor="product-name">Product Name</label>
           <input
             type="text"
             id="product-name"
@@ -71,7 +52,7 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="product-price">{price}</label>
+          <label htmlFor="product-price">Price</label>
           <input
             type="text"
             id="product-price"
@@ -81,7 +62,7 @@ const EditProduct = ({ _id, title, price, quantity, hideEditProduct }) => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="product-quantity">{quantity}</label>
+          <label htmlFor="product-quantity">Quantity</label>
           <input
             type="text"
             id="product-quantity"

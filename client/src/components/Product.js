@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import EditProduct from "./EditProduct";
 import store from "../store";
-<<<<<<< HEAD
 import { ADD_TO_CART } from "../actions/cart";
-import { EDIT_PRODUCT, DELETE_PRODUCT } from "../actions/products";
-=======
-import { addToCart } from "../actions/cart";
 import { receiveAllProducts } from "../actions/products";
->>>>>>> 1d7976c6b6ac284a8c8c92a67c2f2c6c6c33e15a
 import axios from "axios";
 
 export default class Product extends Component {
@@ -24,12 +19,13 @@ export default class Product extends Component {
   handleAddItemToCart = (e) => {
     e.preventDefault();
     const product = {
-      _id: this.props.id,
+      _id: this.props._id,
       title: this.props.title,
       quantity: this.props.quantity - 1,
       price: this.props.price,
     };
-    axios.put(`/api/products/${this.props.id}`, product).then((res) => {
+    console.log(product)
+    axios.put(`/api/products/${this.props._id}`, product).then((res) => {
       // store.dispatch(addToCart({ ...data.data, id: data.data._id }));
       store.dispatch({ type: ADD_TO_CART, payload: res.data })
     });
@@ -43,6 +39,7 @@ export default class Product extends Component {
   handleDeleteItem = (e) => {
     e.preventDefault();
     const id = this.props._id;
+    // probably want to move this to the reducers
     axios.delete(`/api/products/${id}`).then((_) => {
       axios.get("/api/products").then(({ data }) => {
         store.dispatch(receiveAllProducts(data));
