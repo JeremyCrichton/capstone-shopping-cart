@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import store from "../store";
+import { sendAddProduct } from "../actions/products";
 
 export default class AddProduct extends Component {
   state = {
@@ -14,7 +16,8 @@ export default class AddProduct extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // this.handleClearForm();
-    this.props.addProduct(this.state);
+    // this.props.addProduct(this.state);
+    store.dispatch(sendAddProduct(this.state));
   };
 
   handleClearForm = (e) => {

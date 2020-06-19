@@ -3,7 +3,7 @@ import Cart from "./Cart";
 import ProductList from "./ProductList";
 import AddProduct from "./AddProduct";
 import axios from "axios";
-import store from '../store';
+import store from "../store";
 
 import { sortArrayAlphabetically } from "../utils/helpers";
 
@@ -53,14 +53,14 @@ class App extends Component {
     this.handleUpdateProduct(id, { quantity: item.quantity - 1 });
   };
 
-  addProduct = (item) => {
-    axios
-      .post(`/api/products`, item)
-      .then(() => {
-        this.getAllProducts();
-      })
-      .catch((err) => console.log(err));
-  };
+  // addProduct = (item) => {
+  //   axios
+  //     .post(`/api/products`, item)
+  //     .then(() => {
+  //       this.getAllProducts();
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   deleteProduct = (_id) => {
     axios
